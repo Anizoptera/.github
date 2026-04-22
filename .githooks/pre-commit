@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -eu
+
+before_paths=$(git diff --cached --name-only | LC_ALL=C sort)
+
+just check
+
+after_paths=$(git diff --cached --name-only | LC_ALL=C sort)
+
+if [ "$before_paths" != "$after_paths" ]; then
+  printf '\npre-commit: staged file set changed during hook execution\n' >&2
+  exit 1
+fi
